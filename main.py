@@ -1,4 +1,6 @@
+# Game of TicTacToe
 
+# displays the current board
 def display_board():
     print("-"*6, "Current Board:", "-"*6, "\n")
     for i in range (0, 4):
@@ -6,6 +8,7 @@ def display_board():
             print(currentBoard[i][j], end=" "*4)
         print("\n")
 
+# updates the current board with user value
 def update_board(x, y, c):
     if currentBoard[x][y] == '-':
         currentBoard[x][y] = c
@@ -13,18 +16,21 @@ def update_board(x, y, c):
     else:
         return False
 
+# checks if all the values are same horizontally
 def check_winner_horizontal(check):
     for i in range(1, 4):
         if currentBoard[i][1] == currentBoard[i][2] == currentBoard[i][3] == check:
             return True
     return False
 
+# checks if all the values are same vertically
 def check_winner_vertical(check):
     for j in range(1, 4):
         if currentBoard[1][j] == currentBoard[2][j] == currentBoard[3][j] == check:
             return True
     return False
 
+# checks if all the values are same diagonally
 def check_winner_diagonal(check):
     flagLD = True
     flagRD = True
@@ -41,6 +47,7 @@ def check_winner_diagonal(check):
     if flagLD or flagRD: return True
     else: return False
 
+# checks if user is the winner by calling all the other check methods
 def check_winner(check):
     return (check_winner_diagonal(check) or check_winner_horizontal(check) or check_winner_vertical(check))
 
@@ -52,6 +59,7 @@ chars = ['X', 'O']
 validPlay = False
 display_board()
 moves = 0
+
 while moves < 9:
     while not validPlay:
         check = chars[moves%2]
@@ -73,5 +81,4 @@ while moves < 9:
     if check_winner(check):
         print("Player ", check, " wins!!!")
         break
-
     moves += 1
