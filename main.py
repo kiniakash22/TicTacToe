@@ -47,33 +47,31 @@ def check_winner(check):
 
 print("Welcome to the game of TicTacToe!")
 
-currentBoard = [[' ', '1', '2', '3'], ['1', '-', '-', '-'], ['2', '-', '-', '-'], ['3', '-', '-', '-']]
-validPlayX = False
-validPlayO = False
+currentBoard = [['.', '1', '2', '3'], ['1', '-', '-', '-'], ['2', '-', '-', '-'], ['3', '-', '-', '-']]
+chars = ['X', 'O']
+validPlay = False
 display_board()
-moves = 9
-while moves > 0:
-    while not validPlayX:
-        print("Player X please enter your option:")
-        x = int(input())
-        y = int(input())
-        validPlayX = update_board(x, y, 'X')
-        if not validPlayX:
-            print("You've entered an incorrect option. Please enter a correct option")
-    validPlayX = False
+moves = 0
+while moves < 9:
+    while not validPlay:
+        check = chars[moves%2]
+        print("Player ", check , " please enter your option:")
+        try:
+            x = int(input())
+            y = int(input())
+            if (x < 1 or x > 3) or ( y < 1 or y > 3):
+                print("You've entered an option which is out of bound. Please enter a correct option")
+                continue
+        except ValueError:
+            print("You've entered an option which is not an Integer. Please enter a correct option")
+            continue
+        validPlay = update_board(x, y, check)
+        if not validPlay:
+            print("You've entered an option which already has a play. Please enter a correct option")
+    validPlay = False
     display_board()
-    if check_winner("X"):
-        print("Player X wins!!!")
+    if check_winner(check):
+        print("Player ", check, " wins!!!")
         break
 
-    while not validPlayO:
-        print("Player O please enter your option:")
-        x = int(input())
-        y = int(input())
-        validPlayO = update_board(x, y, 'O')
-    validPlayO = False
-    display_board()
-    if check_winner("O"):
-        print("Player O wins!!!")
-        break
-    moves -= 1
+    moves += 1
