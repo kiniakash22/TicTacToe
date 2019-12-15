@@ -2,7 +2,7 @@
 
 # displays the current board
 def display_board():
-    print("-"*6, "Current Board:", "-"*6, "\n")
+    print("\n","-"*6, "Current Board:", "-"*6, "\n")
     for i in range (0, 4):
         for j in range (0, 4):
             print(currentBoard[i][j], end=" "*4)
@@ -52,33 +52,37 @@ def check_winner(check):
     return (check_winner_diagonal(check) or check_winner_horizontal(check) or check_winner_vertical(check))
 
 
-print("Welcome to the game of TicTacToe!")
+print("\nWelcome to the game of TicTacToe!")
 
-currentBoard = [['.', '1', '2', '3'], ['1', '-', '-', '-'], ['2', '-', '-', '-'], ['3', '-', '-', '-']]
-chars = ['X', 'O']
-validPlay = False
-display_board()
-moves = 0
-
-while moves < 9:
-    while not validPlay:
-        check = chars[moves%2]
-        print("Player ", check , " please enter your option:")
-        try:
-            x = int(input())
-            y = int(input())
-            if (x < 1 or x > 3) or ( y < 1 or y > 3):
-                print("You've entered an option which is out of bound. Please enter a correct option")
-                continue
-        except ValueError:
-            print("You've entered an option which is not an Integer. Please enter a correct option")
-            continue
-        validPlay = update_board(x, y, check)
-        if not validPlay:
-            print("You've entered an option which already has a play. Please enter a correct option")
+while True:
+    currentBoard = [['.', '1', '2', '3'], ['1', '-', '-', '-'], ['2', '-', '-', '-'], ['3', '-', '-', '-']]
+    chars = ['X', 'O']
     validPlay = False
     display_board()
-    if check_winner(check):
-        print("Player ", check, " wins!!!")
+    moves = 0
+    while moves < 9:
+        while not validPlay:
+            check = chars[moves%2]
+            print("Player", check , "please enter the position you want to play (x, y):")
+            try:
+                x = int(input())
+                y = int(input())
+                if (x < 1 or x > 3) or ( y < 1 or y > 3):
+                    print("You've entered an option which is out of bound. Please enter a correct option")
+                    continue
+            except ValueError:
+                print("You've entered an option which is not an Integer. Please enter a correct option")
+                continue
+            validPlay = update_board(x, y, check)
+            if not validPlay:
+                print("You've entered an option which already has a play. Please enter a correct option")
+        validPlay = False
+        display_board()
+        if check_winner(check):
+            print("Player ", check, " wins!!!")
+            break
+        moves += 1
+    playAgain = input("Press (n/N) to exit or any other key to play again: ").upper()
+    if playAgain == 'N':
+        print("Thank you for playing. Bye!!!")
         break
-    moves += 1
